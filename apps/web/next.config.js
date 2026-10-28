@@ -19,7 +19,7 @@ const nextConfig = {
       },
     ],
   },
-  } }),
+  }),
   async rewrites() {
     if (process.env.GITHUB_PAGES === 'true') return [];
     return [
