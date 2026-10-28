@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intellect Extension Options</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+  <div class="max-w-2xl mx-auto px-4 py-8">
+    <header class="mb-8">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Intellect Extension</h1>
+          <p class="text-sm text-gray-500 dark:text-gray-400">AI Knowledge Base Settings</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="space-y-6">
+      <!-- Account Section -->
+      <section class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+          Account
+        </h2>
+        
+        <div id="account-section" class="space-y-4">
+          <!-- Not logged in -->
+          <div id="logged-out" class="text-center py-8">
+            <svg class="w-12 h-12 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Not signed in</h3>
+            <p class="text-gray-500 dark:text-gray-400 mb-4">Sign in to sync your preferences and save content to your Intellect knowledge base.</p>
+            <button id="signin-btn" class="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+              </svg>
+              Sign In
+            </button>
+          </div>
+
+          <!-- Logged in -->
+          <div id="logged-in" class="hidden space-y-4">
+            <div class="flex items-center gap-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+              <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                <span id="user-avatar" class="text-blue-700 dark:text-blue-300 font-semibold text-lg">U</span>
+              </div>
+              <div class="flex-1">
+                <p id="user-name" class="font-medium text-gray-900 dark:text-white">User Name</p>
+                <p id="user-email" class="text-sm text-gray-500 dark:text-gray-400">user@example.com</p>
+                <p id="user-tier" class="text-xs text-blue-700 dark:text-blue-300 mt-1">Pro Plan</p>
+              </div>
+              <button id="signout-btn" class="text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">Sign out</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Preferences Section -->
+      <section class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          Preferences
+        </h2>
+        
+        <div class="space-y-4" id="preferences-section">
+          <p class="text-gray-500 dark:text-gray-400 text-sm">Sign in to manage your preferences.</p>
+        </div>
+      </section>
+
+      <!-- Shortcuts Section -->
+      <section class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+          </svg>
+          Keyboard Shortcuts
+        </h2>
+        
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div class="flex items-center gap-3">
+              <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-600 rounded text-xs font-mono">Alt</kbd>
+              <span class="text-gray-700 dark:text-gray-300">+</span>
+              <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-600 rounded text-xs font-mono">S</kbd>
+            </div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">Save current page</span>
+          </div>
+          <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div class="flex items-center gap-3">
+              <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-600 rounded text-xs font-mono">Alt</kbd>
+              <span class="text-gray-700 dark:text-gray-300">+</span>
+              <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-600 rounded text-xs font-mono">Shift</kbd>
+              <span class="text-gray-700 dark:text-gray-300">+</span>
+              <kbd class="px-2 py-1 bg-gray-200 dark:bg-gray-600 rounded text-xs font-mono">S</kbd>
+            </div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">Save selected text</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          About
+        </h2>
+        
+        <div class="space-y-4 text-sm text-gray-600 dark:text-gray-400">
+          <div class="flex justify-between">
+            <span>Version</span>
+            <span class="font-medium text-gray-900 dark:text-white" id="version">1.0.0</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Manifest Version</span>
+            <span class="font-medium text-gray-900 dark:text-white">3</span>
+          </div>
+          <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+            <a href="https://intellect.app" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">intellect.app</a>
+            <span class="mx-2">·</span>
+            <a href="https://intellect.app/privacy" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">Privacy Policy</a>
+            <span class="mx-2">·</span>
+            <a href="https://github.com/intellect" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">GitHub</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+      <p>Intellect Extension - Your AI Knowledge Base</p>
+    </footer>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
