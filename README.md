@@ -1,5 +1,7 @@
 # Intellect - AI-Powered Knowledge Base Platform
 
+[View the frontend preview](https://bruce12-glitch.github.io/intellect/) — backend services are not hosted on GitHub Pages.
+
 A complete clone of Recall.it - an AI-powered knowledge management platform that helps you save, organize, and remember what matters.
 
 ## Features
