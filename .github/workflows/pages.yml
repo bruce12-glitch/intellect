@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: npm install
+      - run: npm install --workspace=apps/web --workspace=packages/ui --workspace=packages/shared
       - run: npm run build:web
         env:
           GITHUB_PAGES: 'true'
