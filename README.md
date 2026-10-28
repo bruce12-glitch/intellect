@@ -1,10 +1,26 @@
-# Intellect - AI-Powered Knowledge Base Platform
+# Intellect — a home for curious minds
 
 [View the frontend preview](https://bruce12-glitch.github.io/intellect/) — backend services are not hosted on GitHub Pages.
 
-A complete clone of Recall.it - an AI-powered knowledge management platform that helps you save, organize, and remember what matters.
+A playful social reading frontend: discover your next book, explore thoughtful discussions, and give a finished book another chapter. Built with Next.js, TypeScript, and an original reading companion, Pip.
 
-## Features
+## Frontend preview
+
+- Responsive discovery, bookshop, reading circles, and personal bookshelf views.
+- Search, category filters, price/discussion sorting, and detailed book previews.
+- Saved books, daily goals and streaks, private reflections, nicknames, and draft resale listings persist on the current device.
+- Accessible native dialogs, keyboard focus, reduced-motion behavior, and mobile navigation.
+- Original mascot artwork, design tokens, and generation brief: [design notes](apps/web/design/BRAND.md).
+
+Books, prices, inventory, and community activity are examples. Checkout, shared conversations, authentication, shipping, and live audio are not connected in this frontend preview. Book cover thumbnails come from Open Library.
+
+GitHub Actions builds a static export of `apps/web` and deploys it to GitHub Pages. `GITHUB_PAGES=true` sets the `/intellect` asset prefix. The public URL uses GitHub’s default domain; no custom domain is required.
+
+## Existing API prototype
+
+The API and browser extension directories retain an earlier AI knowledge-base prototype. The documentation below describes that prototype; those services do not power the new social reading frontend.
+
+## Earlier prototype features
 
 - **Content Ingestion**: Save YouTube videos, podcasts, PDFs, articles, Wikipedia pages, recipes, TikToks, and notes
 - **AI Summarization**: Instant summaries using GPT-4, Claude, or Gemini with key points extraction

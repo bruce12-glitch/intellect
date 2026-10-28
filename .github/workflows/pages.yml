@@ -2,6 +2,11 @@ name: Deploy frontend to GitHub Pages
 on:
   push:
     branches: [main]
+    paths:
+      - 'apps/web/**'
+      - 'packages/**'
+      - 'package.json'
+      - '.github/workflows/pages.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -18,8 +23,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: rm -rf apps/api
-      - run: npm install --workspace=apps/web --workspace=packages/ui --workspace=packages/shared
+      - name: Select frontend workspaces
+        run: node -e "const fs = require('node:fs'); const p = JSON.parse(fs.readFileSync('package.json', 'utf8')); p.workspaces = ['apps/web', 'packages/*']; fs.writeFileSync('package.json', JSON.stringify(p, null, 2));"
+      - run: npm install --workspace=apps/web --workspace=packages/ui --workspace=packages/shared --no-audit --no-fund
       - run: npm run build:web
         env:
           GITHUB_PAGES: 'true'

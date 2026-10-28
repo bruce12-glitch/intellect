@@ -1,83 +1,28 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import { DM_Sans, Nunito } from 'next/font/google';
 import './globals.css';
-import { Providers } from './providers';
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'swap',
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  display: 'swap',
-});
+const bodyFont = DM_Sans({ subsets: ['latin'], variable: '--font-body', display: 'swap' });
+const headingFont = Nunito({ subsets: ['latin'], variable: '--font-heading', display: 'swap' });
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
 export const metadata: Metadata = {
-  title: {
-    default: 'Intellect - Your AI Knowledge Base',
-    template: '%s | Intellect',
-  },
-  description: 'Save what matters. Write what you think. Curate an AI that knows what you know. Summarize, organize, and chat with your knowledge.',
-  keywords: ['AI', 'knowledge base', 'summarization', 'spaced repetition', 'learning', 'productivity', 'second brain'],
-  authors: [{ name: 'Intellect' }],
-  creator: 'Intellect',
-  publisher: 'Intellect',
-  robots: 'index, follow',
+  metadataBase: new URL('https://bruce12-glitch.github.io'),
+  title: 'Intellect — Good books. Better conversations.',
+  description: 'A happy little home for books, big ideas, and curious minds. Discover a good read, find your people, and pass a book forward.',
+  icons: { icon: `${basePath}/icon.svg` },
   openGraph: {
     type: 'website',
-    locale: 'en_US',
-    url: 'https://intellect.app',
+    url: 'https://bruce12-glitch.github.io/intellect/',
     siteName: 'Intellect',
-    title: 'Intellect - Your AI Knowledge Base',
-    description: 'Save what matters. Write what you think. Curate an AI that knows what you know.',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Intellect - AI Knowledge Base',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Intellect - Your AI Knowledge Base',
-    description: 'Save what matters. Write what you think. Curate an AI that knows what you know.',
-    images: ['/og-image.png'],
-    creator: '@getintellect',
-  },
-  verification: {
-    google: 'google-site-verification-code',
+    title: 'Good books. Better conversations.',
+    description: 'Your next favorite book is just the beginning.',
+    images: [{ url: `${basePath}/images/pip-reading.webp`, width: 640, height: 640, alt: 'Pip, Intellect’s friendly green reading companion' }],
   },
 };
 
-export const viewport: Viewport = {
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
-  ],
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-};
+export const viewport: Viewport = { themeColor: '#fbfcf9', width: 'device-width', initialScale: 1 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
-  );
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return <html lang="en"><body className={`${bodyFont.variable} ${headingFont.variable}`}>{children}</body></html>;
 }
