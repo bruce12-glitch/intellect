@@ -1,11 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  ...(process.env.GITHUB_PAGES === 'true' ? { output: 'export', basePath: '/intellect', images: { unoptimized: true } } : {}),
   transpilePackages: ['@intellect/ui', '@intellect/shared'],
   experimental: {
     optimizePackageImports: ['@intellect/ui', 'lucide-react'],
   },
-  images: {
+  ... (process.env.GITHUB_PAGES === 'true' ? {} : { images: {
     domains: ['localhost', 'img.youtube.com', 'i.ytimg.com', 'via.placeholder.com'],
     remotePatterns: [
       {
@@ -18,7 +19,9 @@ const nextConfig = {
       },
     ],
   },
+  } }),
   async rewrites() {
+    if (process.env.GITHUB_PAGES === 'true') return [];
     return [
       {
         source: '/api/:path*',
