@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { DM_Sans, Nunito } from 'next/font/google';
 import './globals.css';
+import './club.css';
 
 const bodyFont = DM_Sans({ subsets: ['latin'], variable: '--font-body', display: 'swap' });
 const headingFont = Nunito({ subsets: ['latin'], variable: '--font-heading', display: 'swap' });
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
     siteName: 'Intellect',
     title: 'Good books. Better conversations.',
     description: 'Your next favorite book is just the beginning.',
-    images: [{ url: `${basePath}/images/pip-reading.webp`, width: 640, height: 640, alt: 'Pip, Intellect’s friendly green reading companion' }],
+    images: [{ url: `${basePath}/images/pip-reading-world.webp`, width: 800, height: 800, alt: 'Pip’s illustrated world of books and curiosity' }],
   },
 };
 

@@ -6,6 +6,8 @@ A playful social reading frontend: discover your next book, explore thoughtful d
 
 ## Frontend preview
 
+The Curiosity Club visual direction combines an illustrated reading world for Pip, an oversized editorial hero, dimensional book cards, and themed collections that open the matching catalog category.
+
 - Responsive discovery, bookshop, reading circles, and personal bookshelf views.
 - Search, category filters, price/discussion sorting, and detailed book previews.
 - Saved books, daily goals and streaks, private reflections, nicknames, and draft resale listings persist on the current device.

@@ -23,3 +23,11 @@ Generation prompt: One original square, transparent-background mascot for Intell
 ## Preview behavior
 
 Book inventory, prices, reader counts, and discussion prompts are sample content. Saves, reading goals, private reflections, reader nickname, and draft book listings persist in browser local storage. No checkout, live audio, shared posting, shipping, or account services are implied to be connected. Book cover thumbnails are obtained from Open Library by ISBN; authors and books retain their respective rights.
+
+## Curiosity Club visual refresh
+
+The second frontend direction adds an oversized editorial hero, bolder tactile buttons, a dimensional book display, themed reading collections, a dark green sidebar reading card, and larger, more readable card typography. Existing browser-local reading features and saved data are preserved. Collection cards navigate to category filters in the preview catalog.
+
+New hero asset: `public/images/pip-reading-world.webp` (800 × 800 with alpha). Created with built-in image generation, using the original Pip artwork as an identity reference. Alt text: “Pip reading on a floating island of colorful books, surrounded by leaves and a giant open-book portal.”
+
+Generation brief: Preserve the original lime-green book dragon, leaf ears, dark round glasses, peach cheeks, orange feet and calm smile. Place Pip centrally on a floating island made from three chunky lavender, sky and cream books, reading an open orange book. Add a giant upright open cream book as a portal, simple leaves, a peach flower and small golden stars. Use independent hand-drawn storybook/editorial illustration, gentle dark-green outlines, tactile paper grain and restrained shading. Keep the complete square scene within frame, readable at 400px wide, with a genuine transparent background, no text, logos or existing commercial mascot.
