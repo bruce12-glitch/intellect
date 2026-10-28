@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { createRequire } from 'node:module';
 import { PGlite } from '@electric-sql/pglite';
 import { validateCommunityConfig } from './check-community-config.mjs';
 
@@ -44,6 +45,23 @@ try {
     assert.throws(() => validateCommunityConfig('', 'sb_publishable_example'));
     assert.throws(() => validateCommunityConfig('http://example.supabase.co', 'sb_publishable_example'));
     assert.equal(validateCommunityConfig('http://localhost:54321', 'sb_publishable_example'), true);
+  });
+
+  await test('Next configuration rejects unsafe settings after environment files are loaded', async () => {
+    const loadConfig = createRequire(import.meta.url)('../next.config.js');
+    const previous = [process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY];
+    try {
+      process.env.NEXT_PUBLIC_SUPABASE_URL = 'https://example.supabase.co';
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = 'sb_secret_test_only';
+      await assert.rejects(() => loadConfig(), /secret Supabase key/);
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_test_only';
+      assert.equal((await loadConfig()).reactStrictMode, true);
+    } finally {
+      ['NEXT_PUBLIC_SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY'].forEach((key, index) => {
+        if (previous[index] === undefined) delete process.env[key];
+        else process.env[key] = previous[index];
+      });
+    }
   });
 
   await db.exec(`

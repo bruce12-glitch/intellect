@@ -70,7 +70,7 @@ npm run test:community --workspace=apps/web
 GITHUB_PAGES=true npm run build:web
 ```
 
-The 11 community checks execute the actual migration in an in-memory PostgreSQL instance using PGlite. They exercise anonymous permissions, private memberships, author spoofing, server timestamps, content constraints, cross-circle replies, public reads, full-text search, author-only removal, rate limits, and deletion cascades. The GitHub Pages workflow runs these checks before building.
+The 12 community checks execute the actual migration in an in-memory PostgreSQL instance using PGlite. They exercise anonymous permissions, private memberships, author spoofing, server timestamps, content constraints, cross-circle replies, public reads, full-text search, author-only removal, rate limits, and deletion cascades. The GitHub Pages workflow runs these checks before building.
 
 These checks do not validate hosted Supabase email delivery, Auth redirect configuration, PostgREST, or WebSocket connectivity. The two-account checks above must be completed against the configured project before announcing shared communication as active.
 

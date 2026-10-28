@@ -25,7 +25,7 @@ GitHub Actions builds a static export of `apps/web` and deploys it to GitHub Pag
 
 Follow [the activation guide](supabase/COMMUNITY_SETUP.md) to apply the database migration, enable email links, set the two public GitHub Actions repository variables, and redeploy. Node.js 22+ is required for the frontend. Never put a Supabase secret or service-role key in public environment variables.
 
-`npm run test:community --workspace=apps/web` runs 11 permission and data-integrity checks against the actual migration in PostgreSQL via PGlite. Hosted Auth and Realtime require a configured project and the guide’s two-account verification.
+`npm run test:community --workspace=apps/web` runs 12 permission and data-integrity checks against the actual migration in PostgreSQL via PGlite. Hosted Auth and Realtime require a configured project and the guide’s two-account verification.
 
 ## Existing API prototype
 

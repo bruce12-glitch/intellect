@@ -37,4 +37,9 @@ const nextConfig = {
   }),
 };
 
-module.exports = nextConfig;
+module.exports = async () => {
+  // Next has loaded .env files here. Guard local settings as well as CI variables.
+  const { validateCommunityConfig } = await import('./scripts/check-community-config.mjs');
+  validateCommunityConfig(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY);
+  return nextConfig;
+};
