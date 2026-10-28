@@ -8,15 +8,24 @@ A playful social reading frontend: discover your next book, explore thoughtful d
 
 The Curiosity Club visual direction combines an illustrated reading world for Pip, an oversized editorial hero, dimensional book cards, and themed collections that open the matching catalog category.
 
-- Responsive discovery, bookshop, reading circles, and personal bookshelf views.
+- Responsive discovery, bookshop, Global Commons, AI Researchers, and personal bookshelf views.
+- AI research rooms for LLM inference, agentic memory, ML systems, paper discussions, and collaboration.
 - Search, category filters, price/discussion sorting, and detailed book previews.
 - Saved books, daily goals and streaks, private reflections, nicknames, and draft resale listings persist on the current device.
 - Accessible native dialogs, keyboard focus, reduced-motion behavior, and mobile navigation.
 - Original mascot artwork, design tokens, and generation brief: [design notes](apps/web/design/BRAND.md).
 
-Books, prices, inventory, and community activity are examples. Checkout, shared conversations, authentication, shipping, and live audio are not connected in this frontend preview. Book cover thumbnails come from Open Library.
+Books, prices, inventory, and the original book discussion cards are examples. The new community circles have a Supabase integration for shared accounts, discussions, replies, and live updates. Until a Supabase project is configured, the circles explicitly show example prompts and device-only private drafts. Checkout, shipping, and live audio are not connected. Book cover thumbnails come from Open Library.
 
 GitHub Actions builds a static export of `apps/web` and deploys it to GitHub Pages. `GITHUB_PAGES=true` sets the `/intellect` asset prefix. The public URL uses GitHub’s default domain; no custom domain is required.
+
+## Shared community activation
+
+[Open AI Researchers](https://bruce12-glitch.github.io/intellect/?circle=ai-researchers) or [Global Commons](https://bruce12-glitch.github.io/intellect/?circle=global-commons). Persistent threads let people leave a thought and return across time zones; timestamps use each visitor’s local time. The circles do not require everyone to be online simultaneously.
+
+Follow [the activation guide](supabase/COMMUNITY_SETUP.md) to apply the database migration, enable email links, set the two public GitHub Actions repository variables, and redeploy. Node.js 22+ is required for the frontend. Never put a Supabase secret or service-role key in public environment variables.
+
+`npm run test:community --workspace=apps/web` runs 11 permission and data-integrity checks against the actual migration in PostgreSQL via PGlite. Hosted Auth and Realtime require a configured project and the guide’s two-account verification.
 
 ## Existing API prototype
 
@@ -59,7 +68,7 @@ The API and browser extension directories retain an earlier AI knowledge-base pr
 ## Quick Start
 
 ### Prerequisites
-- Node.js 20+
+- Node.js 22+
 - PostgreSQL 16+
 - Redis 7+
 - npm 10+

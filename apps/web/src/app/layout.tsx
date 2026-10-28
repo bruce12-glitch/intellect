@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { DM_Sans, Nunito } from 'next/font/google';
 import './globals.css';
 import './club.css';
+import './community.css';
 
 const bodyFont = DM_Sans({ subsets: ['latin'], variable: '--font-body', display: 'swap' });
 const headingFont = Nunito({ subsets: ['latin'], variable: '--font-heading', display: 'swap' });

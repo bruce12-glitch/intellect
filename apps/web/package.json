@@ -4,14 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/check-community-config.mjs && next build",
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
     "test:watch": "vitest",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "test:community": "node scripts/test-community.mjs"
   },
   "dependencies": {
     "next": "^14.1.0",
@@ -53,7 +54,8 @@
     "rehype-highlight": "^7.0.0",
     "framer-motion": "^11.0.0",
     "tailwindcss-animate": "^1.0.7",
-    "@tanstack/react-query-devtools": "^5.20.0"
+    "@tanstack/react-query-devtools": "^5.20.0",
+    "@supabase/supabase-js": "2.118.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
@@ -69,6 +71,7 @@
     "prisma": "^5.10.0",
     "@testing-library/react": "^14.2.0",
     "@testing-library/jest-dom": "^6.4.0",
-    "jsdom": "^24.0.0"
+    "jsdom": "^24.0.0",
+    "@electric-sql/pglite": "0.5.13"
   }
 }
