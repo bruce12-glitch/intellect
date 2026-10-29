@@ -9,9 +9,14 @@ Without the two project settings below, the frontend displays labeled example pr
 
 ## 1. Create the shared database
 
-Create or choose a [Supabase project](https://supabase.com/dashboard). In its SQL Editor, run the complete contents of [202610280001_community_circles.sql](migrations/202610280001_community_circles.sql) once. Alternatively, apply it with the Supabase CLI to a linked project.
+Create or choose a [Supabase project](https://supabase.com/dashboard). In its SQL Editor, run these migrations once, in order:
 
-The migration creates the circle directory, memberships, discussions, and replies. It enables row-level security, limits browser writes to permitted columns, stamps authors and timestamps on the server, and adds the discussion tables to the `supabase_realtime` publication. It creates **no artificial users, discussions, or replies**.
+1. [202610280001_community_circles.sql](migrations/202610280001_community_circles.sql)
+2. [202610290001_intellect_v02.sql](migrations/202610290001_intellect_v02.sql)
+
+If the first migration is already applied, run only the second. Alternatively, apply outstanding migrations with the Supabase CLI to a linked project. Do not rerun a migration that has already succeeded.
+
+The first migration creates the circle directory, memberships, discussions, and replies. It enables row-level security, limits browser writes to permitted columns, stamps authors and timestamps on the server, and adds the discussion tables to the `supabase_realtime` publication. The v0.2 migration adds opt-in researcher profiles, private block lists, private reports, moderator assignments, and server-enforced content visibility. They create **no artificial users, profiles, discussions, or replies**.
 
 Keep row-level security enabled. The browser uses public project credentials; authorization is enforced by Postgres policies and triggers.
 
@@ -50,6 +55,25 @@ For development, copy `apps/web/.env.example` to `apps/web/.env.local` and fill 
 4. Check that another member cannot remove the first member’s discussion. Check that a signed-out visitor can read but cannot publish.
 5. Switch to AI Researchers and try the paper link, topic-room filters, discussion search, and a copied thread link in the other profile.
 6. Disconnect a browser briefly. Confirm that publication is disabled while offline and that draft text remains available after returning.
+7. Open People, create a profile, and confirm it is absent from the other profile until you choose Publish. Unpublish it and confirm it disappears from the other account’s refreshed directory.
+8. Report a shared post or reply. Confirm the report is visible to its reporter and the assigned circle moderator, but not to another ordinary member.
+9. Block a member and confirm their messages and profile disappear from your signed-in view. Unblock them through Community care. A block does not restrict what other people can read.
+10. With the assigned moderator account, hide a reported discussion and confirm that both its body and replies are unavailable to signed-out readers, including direct queries by ID. Restore it from the reviewed queue and verify visibility again.
+
+## 5. Assign circle moderators
+
+Moderator accounts must already exist in Supabase Authentication. An administrator can assign a role in the SQL Editor using the account’s actual Auth user UUID:
+
+```sql
+insert into public.community_moderators (circle_slug, user_id)
+values ('ai-researchers', 'REPLACE_WITH_AUTH_USER_UUID');
+```
+
+Replace the UUID placeholder before running the statement. Use `global-commons` for a separate assignment in that circle. The browser cannot create, change, or grant moderator roles. A signed-in assigned moderator sees **Community care → Moderation queue**. Assignment alone does not publish a profile or start a discussion.
+
+To revoke a role, delete that specific `(circle_slug, user_id)` assignment in the administrator SQL Editor. The moderation function checks the current assignment on every request, even when a browser still displays a previously loaded queue.
+
+Report details and review notes are private to the reporter and assigned circle moderators. Reports are limited to ten per member per rolling hour. Queue views show up to 100 open or closed reports. The latest decision and reviewer are stored; this release does not provide an immutable decision history. Deleting a report’s target content or reporter account removes the associated report.
 
 If live updates are unavailable, the app refreshes visible discussions and threads every 30 seconds. The feed also refreshes when the window regains focus, returns online, or becomes visible. A refresh button is available for the discussion feed. Failed submissions retain the message ID and text so a retry can recover an already-created message without duplicating it.
 
@@ -58,7 +82,10 @@ If live updates are unavailable, the app refreshes visible discussions and threa
 - Shared text discussions and replies; email-link accounts; public display names and circle membership; HTTPS paper/source links; English full-text discussion search; topic rooms; local-time timestamps; Realtime updates with polling fallback.
 - Per-author server limits: five new discussions and sixty replies per rolling hour across both circles. The feed loads up to 200 recent discussions; search queries the database rather than only the loaded cards. Thread views show the latest 300 replies in chronological order.
 - Private drafts, book goals, and shelves remain on the current device and do not sync between accounts. A saved discussion draft can be reopened, edited, and explicitly published after activation. Example discussion drafts never become shared messages automatically.
-- Direct messages, translation, push notifications, audio/video rooms, a moderation console, reporting/blocking, and a full archive UI are not implemented. No presence counts or claims of active members are fabricated. Before a broad public launch, establish moderation operations, email delivery capacity, and database/Realtime capacity for the expected audience.
+- Research profiles are private until their owners publish them. The public directory supports search, interest filters, and manual refresh, up to 200 loaded profiles. Optional ORCID/website links are self-described and do not verify identity or expertise.
+- Blocking hides an author’s discussions, replies, collaboration cards, and profiles in the signed-in view. It is not a confidentiality boundary for public content. Moderator queues remain available for review. Block lists load up to 1,000 entries.
+- The paper club is a self-paced reading desk with local notebooks and exports, not an announced live event. Project briefs reuse normal Collaboration discussions and their existing rate limits.
+- Direct messages, translation, push notifications, audio/video rooms, and a full archive UI are not implemented. No presence counts or claims of active members are fabricated. Before a broad public launch, establish moderation operations, email delivery capacity, and database/Realtime capacity for the expected audience.
 - Any-language text can be posted. Search currently uses an English text-search configuration; it is not automatic translation or multilingual semantic search.
 
 ## Validation
@@ -67,10 +94,11 @@ With frontend dependencies installed, run from the repository root:
 
 ```sh
 npm run test:community --workspace=apps/web
+npm run test:research --workspace=apps/web
 GITHUB_PAGES=true npm run build:web
 ```
 
-The 12 community checks execute the actual migration in an in-memory PostgreSQL instance using PGlite. They exercise anonymous permissions, private memberships, author spoofing, server timestamps, content constraints, cross-circle replies, public reads, full-text search, author-only removal, rate limits, and deletion cascades. The GitHub Pages workflow runs these checks before building.
+The 30 community checks include 28 PostgreSQL scenarios against both actual migrations using PGlite and two configuration checks. They exercise anonymous permissions, private memberships, author spoofing, server timestamps, content constraints, cross-circle replies, public reads, full-text search, author-only removal, rate limits, deletion cascades, profile publication, private reports, role escalation, moderator circle boundaries, hiding, and restoration. Four Vitest checks cover the frontend profile publication boundary, malformed saved records, and safe source links. The GitHub Pages workflow runs these checks before building.
 
 These checks do not validate hosted Supabase email delivery, Auth redirect configuration, PostgREST, or WebSocket connectivity. The two-account checks above must be completed against the configured project before announcing shared communication as active.
 

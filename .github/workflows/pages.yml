@@ -28,6 +28,7 @@ jobs:
         run: node -e "const fs = require('node:fs'); const p = JSON.parse(fs.readFileSync('package.json', 'utf8')); p.workspaces = ['apps/web', 'packages/*']; fs.writeFileSync('package.json', JSON.stringify(p, null, 2));"
       - run: npm install --workspace=apps/web --workspace=packages/ui --workspace=packages/shared --no-audit --no-fund
       - run: npm run test:community --workspace=apps/web
+      - run: npm run test:research --workspace=apps/web
       - run: npm run build:web
         env:
           GITHUB_PAGES: 'true'

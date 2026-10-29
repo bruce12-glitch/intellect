@@ -4,6 +4,8 @@
 
 A playful social reading frontend: discover your next book, explore thoughtful discussions, and give a finished book another chapter. Built with Next.js, TypeScript, and an original reading companion, Pip.
 
+**Current release: v0.2.0.** The AI research circle now includes a guided paper desk, private notebooks and exports, collaboration briefs, opt-in researcher profiles, and community care tools. See the [release notes](RELEASES.md) for shipped features and activation requirements.
+
 ## Frontend preview
 
 The Curiosity Club visual direction combines an illustrated reading world for Pip, an oversized editorial hero, dimensional book cards, and themed collections that open the matching catalog category.
@@ -25,7 +27,7 @@ GitHub Actions builds a static export of `apps/web` and deploys it to GitHub Pag
 
 Follow [the activation guide](supabase/COMMUNITY_SETUP.md) to apply the database migration, enable email links, set the two public GitHub Actions repository variables, and redeploy. Node.js 22+ is required for the frontend. Never put a Supabase secret or service-role key in public environment variables.
 
-`npm run test:community --workspace=apps/web` runs 12 permission and data-integrity checks against the actual migration in PostgreSQL via PGlite. Hosted Auth and Realtime require a configured project and the guide’s two-account verification.
+`npm run test:community --workspace=apps/web` runs 30 permission and data-integrity checks against both migrations in PostgreSQL via PGlite. `npm run test:research --workspace=apps/web` runs four frontend data-boundary tests. Hosted Auth, email, and Realtime require a configured project and the guide’s multi-account verification, including an assigned moderator.
 
 ## Existing API prototype
 
