@@ -15,13 +15,16 @@ export function useCommunityCircle(circle: CircleSlug, topic: string, search: st
   const [error, setError] = useState('');
   const [realtime, setRealtime] = useState(false);
   const [online, setOnline] = useState(true);
+  const [blocks, setBlocks] = useState<{ blocked_id: string; blocked_label: string }[]>([]);
+  const [moderator, setModerator] = useState(false);
+  const [safetyError, setSafetyError] = useState('');
   const generation = useRef(0);
 
   const refresh = useCallback(async () => {
     if (!client) return;
     const request = ++generation.current;
     setLoading(true);
-    let query = client.from('community_posts').select('*').eq('circle_slug', circle).order('created_at', { ascending: false }).order('id', { ascending: false }).limit(limit);
+    let query = client.from('community_posts').select('*').eq('circle_slug', circle).is('hidden_at', null).order('created_at', { ascending: false }).order('id', { ascending: false }).limit(limit);
     if (topic !== 'All rooms') query = query.eq('topic', topic);
     if (search.trim()) query = query.textSearch('search_document', search.trim(), { type: 'websearch', config: 'english' });
     try {
@@ -58,6 +61,24 @@ export function useCommunityCircle(circle: CircleSlug, topic: string, search: st
     });
     return () => { active = false; };
   }, [client, session, circle]);
+
+  useEffect(() => {
+    setBlocks([]); setModerator(false); setSafetyError('');
+    if (!client || !session) return;
+    let active = true;
+    void (async () => {
+      try {
+        const [blocked, role] = await Promise.all([
+          client.from('community_blocks').select('blocked_id,blocked_label').eq('blocker_id', session.user.id).limit(1000),
+          client.from('community_moderators').select('user_id').eq('circle_slug', circle).eq('user_id', session.user.id).maybeSingle(),
+        ]);
+        if (!active) return;
+        if (blocked.error || role.error) throw blocked.error || role.error;
+        setBlocks(blocked.data || []); setModerator(!!role.data);
+      } catch { if (active) setSafetyError('Community care needs the v0.2 database migration, or its connection could not be loaded.'); }
+    })();
+    return () => { active = false; };
+  }, [client, session?.user.id, circle]);
 
   useEffect(() => {
     const timer = setTimeout(() => void refresh(), search ? 300 : 0);
@@ -116,8 +137,24 @@ export function useCommunityCircle(circle: CircleSlug, topic: string, search: st
     await refresh();
   }
 
-  return { client, session, member, posts, loading, error, realtime, online, limit, setLimit, refresh, join, insertRecord, remove };
+  async function blockAuthor(id: string, label: string) {
+    if (!client || !session) throw new Error('Sign in to manage your block list.');
+    const result = await client.from('community_blocks').insert({ blocker_id: session.user.id, blocked_id: id, blocked_label: label.slice(0, 40) || 'Circle member' });
+    if (result.error && result.error.code !== '23505') throw result.error;
+    setBlocks(current => [...current.filter(item => item.blocked_id !== id), { blocked_id: id, blocked_label: label.slice(0, 40) || 'Circle member' }]);
+  }
+
+  async function unblockAuthor(id: string) {
+    if (!client || !session) throw new Error('Sign in to manage your block list.');
+    const result = await client.from('community_blocks').delete().eq('blocker_id', session.user.id).eq('blocked_id', id);
+    if (result.error) throw result.error;
+    setBlocks(current => current.filter(item => item.blocked_id !== id));
+  }
+
+  return { client, session, member, posts, loading, error, realtime, online, limit, setLimit, refresh, join, insertRecord, remove, blocks, moderator, safetyError, blockAuthor, unblockAuthor };
 }
+
+export type CommunityApi = ReturnType<typeof useCommunityCircle>;
 
 export function useSharedReplies(post: CommunityPost | null, changed: number) {
   const [replies, setReplies] = useState<CommunityReply[]>([]);
@@ -129,7 +166,7 @@ export function useSharedReplies(post: CommunityPost | null, changed: number) {
     let active = true;
     const load = async () => {
       try {
-        const result = await client.from('community_replies').select('*').eq('post_id', post.id).order('created_at', { ascending: false }).order('id', { ascending: false }).limit(300);
+        const result = await client.from('community_replies').select('*').eq('post_id', post.id).is('hidden_at', null).order('created_at', { ascending: false }).order('id', { ascending: false }).limit(300);
         if (!active) return;
         if (result.error) throw result.error;
         setReplies(((result.data || []) as CommunityReply[]).reverse()); setError('');
