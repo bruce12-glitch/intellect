@@ -3,6 +3,7 @@ import { DM_Sans, Nunito } from 'next/font/google';
 import './globals.css';
 import './club.css';
 import './community.css';
+import './research.css';
 
 const bodyFont = DM_Sans({ subsets: ['latin'], variable: '--font-body', display: 'swap' });
 const headingFont = Nunito({ subsets: ['latin'], variable: '--font-heading', display: 'swap' });
@@ -10,8 +11,8 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://bruce12-glitch.github.io'),
-  title: 'Intellect — Good books. Better conversations.',
-  description: 'A happy little home for books, big ideas, and curious minds. Discover a good read, find your people, and pass a book forward.',
+  title: 'Intellect — Read. Connect. Research.',
+  description: 'A home for books, thoughtful conversations, and open research. Read a paper, build a small project, and find people to learn with.',
   icons: { icon: `${basePath}/icon.svg` },
   openGraph: {
     type: 'website',

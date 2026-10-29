@@ -1,6 +1,6 @@
 {
   "name": "@intellect/web",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,7 +12,8 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
-    "test:community": "node scripts/test-community.mjs"
+    "test:community": "node scripts/test-community.mjs && node scripts/test-community-v02.mjs",
+    "test:research": "vitest run src/components/reading/research-data.test.ts --poolOptions.threads.singleThread"
   },
   "dependencies": {
     "next": "^14.1.0",
